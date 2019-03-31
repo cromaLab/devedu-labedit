@@ -21,9 +21,6 @@ services.map(service => {
   const { name, app, port } = service
   app.set('port', port)
 
-  if (app.get('env') === 'production')
-    app.set('trust proxy', 1)
-
   const server = http.createServer(app)
   server.listen(port, () => log(`${name} listening on port ${port}`))
 })

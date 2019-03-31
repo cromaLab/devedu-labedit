@@ -1,0 +1,9 @@
+<form action="/project" method="post">
+  <label>Uniqname: <input type="text" name="user" required /></label>
+  <label>Keyword: <input type="password" name="name" required /></label>
+  <button type="submit">Start</button>
+
+  {{#if invalid}}
+    <p>Invalid input!</p>
+  {{/if}}
+</form>

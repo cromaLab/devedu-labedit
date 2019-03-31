@@ -1,9 +1,9 @@
-const express = require('express')
-const base = require('./middle/base')
+const base = require('./utils/base')
+const store = require('./utils/store')
+const project = require('./routes/project')
 
-const app = express()
-app.use(base('viewer'))
-
-// TODO
+const app = base('viewer')
+app.use('/project', project.router)
+app.use('/view', project.verify, store(false))
 
 module.exports = app
