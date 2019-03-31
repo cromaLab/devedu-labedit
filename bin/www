@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+require('dotenv').config()
+
+const http = require('http')
+const log = require('../utils/log')('www')
+
+const { PORT, EDIT_PORT, VIEW_PORT } = process.env
+
+const services = [{
+  name: 'editor',
+  app: require('../editor'),
+  port: parseInt(EDIT_PORT || PORT || '3000')
+}, {
+  name: 'viewer',
+  app: require('../viewer'),
+  port: parseInt(VIEW_PORT || '3001')
+}]
+
+services.map(service => {
+  const { name, app, port } = service
+  app.set('port', port)
+
+  if (app.get('env') === 'production')
+    app.set('trust proxy', 1)
+
+  const server = http.createServer(app)
+  server.listen(port, () => log(`${name} listening on port ${port}`))
+})
