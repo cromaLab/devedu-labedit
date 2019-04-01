@@ -16,7 +16,7 @@ class Store {
   constructor (user, keyword) {
     this.id = Store.generateId(user, keyword)
     this.base = path.join(STORE_DIR, this.id)
-    this._meta = `${user},${keyword},${this.id}\n`
+    this._meta = `${this.id},${user},${keyword}\n`
   }
 
   path (file) {
