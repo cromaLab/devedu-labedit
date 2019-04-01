@@ -21,7 +21,7 @@ class Status {
 
   async remove (message, ms = 500) {
     if (message) this.update(message)
-    return setTimeout(() => this.elem.remove(), ms)
+    return wait(ms).then(() => this.elem.remove())
   }
 }
 
@@ -32,17 +32,39 @@ class FileEditor {
   }
 
   async createEditor (container, options) {
+    if (this._language == 'javascript') {
+      const typings = [{
+          name: 'JQuery',
+          baseUrl: '/editor/third/jquery/',
+          files: ['JQuery', 'JQueryStatic', 'misc', 'legacy']
+      }]
+
+      await Promise.all(typings.map(async lib => {
+        await Promise.all(lib.files.map(async file => {
+          const data = await (await fetch(`${lib.baseUrl}/${file}.d.ts`)).text()
+          monaco.languages.typescript.javascriptDefaults.addExtraLib(data)
+        }))
+      }))
+    }
+
     this.editor = monaco.editor.create(container, {
       value: await this._content,
       language: this._language,
       ...(options || {})
     })
 
+    let saving = false
     this.editor.onKeyDown(async event => {
       const isKeyS = event.browserEvent.keyCode === 83
       if ((event.ctrlKey || event.metaKey) && isKeyS) {
-        event.preventDefault(); event.stopPropagation()
-        await file._save(this.editor.getValue())
+        event.stopPropagation()
+        event.preventDefault()
+
+        if (!saving) {
+          saving = true // Block concurrent requests
+          await file._save(this.editor.getValue())
+          saving = false
+        }
       }
     })
 
@@ -65,7 +87,7 @@ class FileEditor {
     const status = new Status('Saving...')
     try {
       await this._fetch(this._endpoint, { method, body })
-      status.remove('Saved')
+      await status.remove('Saved') // TODO: workaround for dup messages
     } catch (e) {
       status.error(e.message)
     }
@@ -86,4 +108,8 @@ class FileEditor {
   get _endpoint () {
     return `/files/${this.name}`
   }
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

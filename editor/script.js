@@ -1,8 +1,8 @@
 const params = new URLSearchParams(window.location.search)
 const filename = params.get('file') || ''
 
-document.title = filename
-const base = new Status(filename)
+new Status(document.title = filename)
+const saveStatus = new Status('Use Ctrl/Cmd + S to Save')
 
 const container = document.getElementById('container')
 const file = new FileEditor(filename)
