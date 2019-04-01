@@ -1,9 +1,7 @@
+<h2>Sign up!</h2>
+<p>Pick your favorite keyword to be able to log back in if anything happens</p>
 <form action="/project" method="post">
   <label>Uniqname: <input type="text" name="user" required /></label>
-  <label>Keyword: <input type="password" name="name" required /></label>
+  <label>Keyword: <input type="password" name="keyword" required /></label>
   <button type="submit">Start</button>
-
-  {{#if invalid}}
-    <p>Invalid input!</p>
-  {{/if}}
 </form>

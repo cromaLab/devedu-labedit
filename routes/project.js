@@ -1,7 +1,8 @@
 const express = require('express')
-const crypto = require('crypto')
 
 const Store = require('../utils/store')
+
+const created = new Set()
 
 /**
  *
@@ -14,10 +15,10 @@ router.get('/', (req, res) => {
   res.render('project')
 })
 
-router.post('/', async (req, res, next) => {
-  const { user, name } = req.body
-  req.session.project = await generateProject(user, name)
-  next()
+router.post('/', (req, res, next) => {
+  const { user, keyword } = req.body
+  req.session.project = { user, keyword }
+  res.redirect(req.app.get('redirect'))
 })
 
 /**
@@ -36,21 +37,16 @@ function verify (req, res, next) {
  *
  * @type {express.RequestHandler}
  */
-function load (req, res, next) {
-  res.locals.store = new Store(req.session.project.id)
+async function load (req, res, next) {
+  const { user, keyword } = req.session.project
+  const store = new Store(user, keyword)
+  if (!created.has(store.id)) {
+    await store.create().catch(next)
+    await store.touch('index.html').catch(next)
+    created.add(store.id)
+  }
+  res.locals.store = store
   next()
-}
-
-/**
- *
- *
- * @param {string} user
- * @param {string} name
- */
-async function generateProject (user, name) {
-  const id = crypto.createHash('sha256').update(user).update(name).digest('hex')
-  await new Store(id).create()
-  return { user, name, id }
 }
 
 module.exports = { router, verify, load }

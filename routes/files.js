@@ -6,12 +6,15 @@ const express = require('express')
  *
  * @type {express.Router}
  */
-const router = express.Router({ strict: true })
+const router = express.Router({
+  caseSensitive: true,
+  strict: true
+})
 
 router.use(bodyParser.raw({ type: 'text/plain' }))
 
 router.get('*', (req, res, next) => {
-  res.sendFile(res.locals.store.path(req.path), next)
+  res.sendFile(res.locals.store.path(req.path))
 })
 
 router.post('*', (req, res, next) => {

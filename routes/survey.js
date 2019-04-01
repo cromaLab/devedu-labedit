@@ -1,5 +1,7 @@
 const express = require('express')
 
+const { SURVEY_URL } = process.env
+
 /**
  *
  *
@@ -8,12 +10,12 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  res.render('survey')
+  res.redirect(SURVEY_URL)
 })
 
-router.post('/', (req, res, next) => {
+router.get('/complete', (req, res) => {
   req.session.survey = true
-  next()
+  res.redirect('../explorer')
 })
 
 /**
@@ -23,7 +25,7 @@ router.post('/', (req, res, next) => {
  */
 function verify (req, res, next) {
   if (!req.session.survey) {
-    res.render('survey')
+    res.redirect(SURVEY_URL)
   } else next()
 }
 
