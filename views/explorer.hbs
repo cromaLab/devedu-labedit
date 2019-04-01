@@ -1,14 +1,14 @@
 <h2>Files</h2>
-<form action="{{settings.viewer_baseurl}}/project" method="post" target="_blank">
+<form action="{{settings.viewer_baseurl}}/project" method="post" target="_view">
     <input type="text" name="user" value="{{project.user}}" hidden>
     <input type="text" name="keyword" value="{{project.keyword}}" hidden>
     <button type="submit">View result / Open index.html</button>
 </form>
 <p>Click on a file to edit it!</p>
 <ul id='files'>
-    {{#each files}}
-        <a href="/editor?file={{this}}" target="_blank"><li>{{this}}</li></a>
-    {{/each}}
+{{#each files}}
+    <li><a href="/editor?file={{this}}" target="file_{{this}}">{{this}}</a></li>
+{{/each}}
 </ul>
 <form action="#" method="post">
     <input type="text" name="file" placeholder="filename">
