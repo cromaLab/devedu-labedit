@@ -39,7 +39,7 @@ class FileEditor {
           files: ['JQuery', 'JQueryStatic', 'misc', 'legacy']
       }]
 
-      await Promise.all(typings.map(async lib => {
+      Promise.all(typings.map(async lib => {
         await Promise.all(lib.files.map(async file => {
           const data = await (await fetch(`${lib.baseUrl}/${file}.d.ts`)).text()
           monaco.languages.typescript.javascriptDefaults.addExtraLib(data)
