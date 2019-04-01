@@ -15,8 +15,8 @@ class Store {
    */
   constructor (user, keyword) {
     this.id = Store.generateId(user, keyword)
-    fs.appendFile(metdata, `${user},${keyword},${this.id}\n`)
     this.base = path.join(STORE_DIR, this.id)
+    this._meta = `${user},${keyword},${this.id}\n`
   }
 
   path (file) {
@@ -24,6 +24,7 @@ class Store {
   }
 
   async create () {
+    fs.appendFile(metdata, this._meta)
     await fs.ensureDir(this.base)
   }
 
