@@ -1,5 +1,5 @@
 const params = new URLSearchParams(window.location.search)
-const filename = params.get('filename') || ''
+const filename = params.get('file') || ''
 
 document.title = filename
 const base = new Status(filename)

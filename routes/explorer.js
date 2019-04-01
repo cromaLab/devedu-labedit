@@ -8,7 +8,13 @@ const express = require('express')
 const router = express.Router()
 
 router.get('/', (req, res) => {
-  res.render('explorer')
+  const { project } = req.session
+  res.render('explorer', { project })
+})
+
+router.post('/*', (req, res) => {
+  res.locals.store.touch(req.path)
+  res.redirect(`../editor/?file=${req.path}`)
 })
 
 module.exports = { router }

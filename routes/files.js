@@ -11,16 +11,13 @@ const router = express.Router({ strict: true })
 router.use(bodyParser.raw({ type: 'text/plain' }))
 
 router.get('*', (req, res, next) => {
-  res.sendFile(req.session.project.absolutePath(req.path), next)
+  res.sendFile(res.locals.store.path(req.path), next)
 })
 
-router.post('*', async (req, res, next) => {
-  try {
-    await req.session.project.writeFile(req.path, req.body)
-    res.status(204).end()
-  } catch (e) {
-    next(e)
-  }
+router.post('*', (req, res, next) => {
+  res.locals.store.write(req.path, req.body)
+    .then(() => res.status(204).end())
+    .catch(next)
 })
 
 module.exports = { router }

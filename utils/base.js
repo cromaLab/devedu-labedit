@@ -31,8 +31,8 @@ function createBase (name) {
 
   // retrieve session
   app.use(session({
-    name: 'session',
-    secret: SECRET + name,
+    name: name + '_session',
+    secret: name + SECRET,
     saveUninitialized: false,
     resave: false,
     cookie: {

@@ -3,7 +3,7 @@ const path = require('path')
 
 const { STORE_DIR } = process.env
 
-class store {
+class Store {
   /**
    *
    *
@@ -13,13 +13,21 @@ class store {
     this.base = path.join(STORE_DIR, id)
   }
 
-  absolutePath (file) {
+  path (file) {
     return path.join(this.base, file)
   }
 
-  writeFile (file, content) {
-    return fs.writeFile(file, content)
+  async create () {
+    await fs.ensureDir(this.base)
+  }
+
+  async touch (file) {
+    await fs.ensureFile(this.path(file))
+  }
+
+  async write (file, content) {
+    await fs.writeFile(this.path(file), content)
   }
 }
 
-module.exports = store
+module.exports = Store

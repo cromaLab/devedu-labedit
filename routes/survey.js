@@ -11,9 +11,9 @@ router.get('/', (req, res) => {
   res.render('survey')
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   req.session.survey = true
-  res.redirect('back')
+  next()
 })
 
 /**

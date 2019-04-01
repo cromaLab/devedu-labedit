@@ -14,10 +14,10 @@ router.get('/', (req, res) => {
   res.render('project')
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res, next) => {
   const { user, name } = req.body
-  req.session.project = new Store(generateId(user, name))
-  res.redirect('back')
+  req.session.project = await generateProject(user, name)
+  next()
 })
 
 /**
@@ -28,7 +28,17 @@ router.post('/', (req, res) => {
 function verify (req, res, next) {
   if (!req.session.project) {
     res.render('project')
-  } else next()
+  } else load(req, res, next)
+}
+
+/**
+ *
+ *
+ * @type {express.RequestHandler}
+ */
+function load (req, res, next) {
+  res.locals.store = new Store(req.session.project.id)
+  next()
 }
 
 /**
@@ -37,8 +47,10 @@ function verify (req, res, next) {
  * @param {string} user
  * @param {string} name
  */
-function generateId (user, name) {
-  return crypto.createHash('sha256').update(user).update(name).digest('hex')
+async function generateProject (user, name) {
+  const id = crypto.createHash('sha256').update(user).update(name).digest('hex')
+  await new Store(id).create()
+  return { user, name, id }
 }
 
-module.exports = { router, verify }
+module.exports = { router, verify, load }
