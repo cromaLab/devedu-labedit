@@ -7,7 +7,10 @@ const express = require('express')
  */
 const router = express.Router()
 
-router.get('/', verify)
+router.get('/', (req, res) => {
+  res.render('survey')
+})
+
 router.post('/', (req, res) => {
   req.session.survey = true
   res.redirect('back')

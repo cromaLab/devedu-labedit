@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require('crypto')
 
-const log = require('../utils/log')('project')
+const Store = require('../utils/store')
 
 /**
  *
@@ -10,10 +10,13 @@ const log = require('../utils/log')('project')
  */
 const router = express.Router()
 
-router.get('/', verify)
+router.get('/', (req, res) => {
+  res.render('project')
+})
+
 router.post('/', (req, res) => {
   const { user, name } = req.body
-  req.session.project = generateProject(user, name)
+  req.session.project = new Store(generateId(user, name))
   res.redirect('back')
 })
 
@@ -34,10 +37,8 @@ function verify (req, res, next) {
  * @param {string} user
  * @param {string} name
  */
-function generateProject (user, name) {
-  const id = crypto.createHash('sha256').update(user).update(name).digest('hex')
-  log(`Generating project ${id}`)
-  return { user, name, id }
+function generateId (user, name) {
+  return crypto.createHash('sha256').update(user).update(name).digest('hex')
 }
 
 module.exports = { router, verify }

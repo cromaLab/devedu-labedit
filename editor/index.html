@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monaco Editor</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="third/monaco-editor/vs/loader.js"></script>
+    <script> require.config({ paths: { 'vs': 'third/monaco-editor/vs' }}); </script>
+
+    <script src="third/emmet-monaco.js"></script>
+    <script> require(['vs/editor/editor.main'], () => emmetMonaco.emmetHTML(monaco)) </script>
+
+    <script src="utils.js"></script>
+</head>
+<body>
+    <div id="notify"></div>
+    <div id="container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
