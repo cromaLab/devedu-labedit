@@ -36,7 +36,7 @@ function createBase (name) {
     saveUninitialized: false,
     resave: false,
     cookie: {
-      secure: NODE_ENV === 'production',
+      // secure: NODE_ENV === 'production',
       httpOnly: true
     }
   }))
