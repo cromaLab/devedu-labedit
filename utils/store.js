@@ -3,7 +3,11 @@ const fs = require('fs-extra')
 const path = require('path')
 
 const { STORE_DIR } = process.env
+
+const project_base = path.join(STORE_DIR, 'project_base/')
 const metdata = path.join(STORE_DIR, 'metadata.csv')
+
+fs.ensureDirSync(project_base)
 fs.ensureFileSync(metdata)
 
 class Store {
@@ -24,7 +28,8 @@ class Store {
   }
 
   async create () {
-    fs.appendFile(metdata, this._meta)
+    await fs.appendFile(metdata, this._meta)
+    await fs.copy(project_base, this.base, {overwrite: false})
     await fs.ensureDir(this.base)
   }
 
