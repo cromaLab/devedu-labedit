@@ -8,14 +8,14 @@ const express = require('express')
 const router = express.Router()
 
 router.post('/', async (req, res, next) => {
-  const {file} = req.body
+  const { file } = req.body
   try {
     if (file) {
       await res.locals.store.touch(file)
     }
     next()
-  } catch (err) {
-    next(err)
+  } catch (e) {
+    next(e)
   }
 })
 
@@ -24,8 +24,8 @@ router.all('/', async (req, res, next) => {
   try {
     res.locals.files = await res.locals.store.ls()
     res.render('explorer')
-  } catch (err) {
-    next(err)
+  } catch (e) {
+    next(e)
   }
 })
 

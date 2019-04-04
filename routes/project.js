@@ -21,8 +21,8 @@ router.post('/', async (req, res, next) => {
   try {
     await store.create()
     res.redirect(req.app.get('redirect'))
-  } catch (err) {
-    next(err)
+  } catch (e) {
+    next(e)
   }
 })
 

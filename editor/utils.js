@@ -53,6 +53,11 @@ class FileEditor {
       ...(options || {})
     })
 
+    if (livewriting !== undefined) {
+      this.editor.livewriting = livewriting;
+      this.editor.livewriting("create", "monaco", {}, await this._content);
+    }
+
     let saving = false
     this.editor.onKeyDown(async event => {
       const isKeyS = event.browserEvent.keyCode === 83
@@ -62,7 +67,10 @@ class FileEditor {
 
         if (!saving) {
           saving = true // Block concurrent requests
-          await file._save(this.editor.getValue())
+          let actions = null;
+          if (this.editor.livewriting)
+            actions = this.editor.livewriting("returnactiondata")
+          await file._save(this.editor.getValue(), actions)
           saving = false
         }
       }
@@ -82,12 +90,17 @@ class FileEditor {
     }
   }
 
-  async _save (body) {
-    const method = 'POST'
+  async _save (content, actions) {
     const status = new Status('Saving...')
     try {
-      await this._fetch(this._endpoint, { method, body })
-      await status.remove('Saved') // TODO: workaround for dup messages
+      const body = JSON.stringify({content, actions})
+      await this._fetch(this._endpoint, {
+        headers: {'Content-Type': 'application/json'},
+        method:'POST', body,
+      })
+
+      // TODO: workaround for dup messages
+      await status.remove('Saved')
     } catch (e) {
       status.error(e.message)
     }
