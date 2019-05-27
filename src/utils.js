@@ -1,9 +1,10 @@
 import * as monaco from 'monaco-editor'
 import livewriting from 'livewriting'
+import { emmetHTML } from "emmet-monaco-es"
 // import emmetMonaco from 'emmet-monaco-es/dist/emmet-monaco'
 import file from './script'
-// require.config({ paths: { 'vs': 'monaco-editor/esm/vs' }});
-// require(['monaco-editor/esm/vs/editor/editor.main'], () => emmetMonaco.emmetHTML(monaco))
+
+emmetHTML(monaco)
 
 export class Status {
   constructor (message) {

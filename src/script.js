@@ -20,3 +20,4 @@ const editor = file.createEditor(container, {
   automaticLayout: true,
   theme: 'vs-dark'
 })
+

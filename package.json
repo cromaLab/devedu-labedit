@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "build": "webpack",
     "lint": "eslint --fix ."
   },
   "dependencies": {
