@@ -1,7 +1,7 @@
 # Devedu-labedit
 
 Prerequisites:
-Install (node)[https://nodejs.org/en/].
+Install [node](https://nodejs.org/en/).
 
 Clone the repository.
 
