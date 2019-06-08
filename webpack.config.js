@@ -2,10 +2,11 @@ const path = require('path')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
-    entry: ['./src/script.js', './src/utils.js'],
+    entry: './src/script.js',
     context: __dirname,
+    mode: 'development',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'editor'),
         filename: 'app.js'
     },
     module: {

@@ -24,7 +24,7 @@ app.use('/survey', survey.router)
 app.use(survey.verify)
 
 app.use('/explorer', explorer.router)
-app.use('/dist', express.static(path.join(__dirname, 'dist')))
+app.use('/editor', express.static(path.join(__dirname, 'editor')))
 app.use('/files', files.router)
 
 module.exports = app

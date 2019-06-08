@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "build": "webpack",
+    "build": "webpack --watch",
+    "webpack-hook": "webpack",
     "lint": "eslint --fix ."
   },
+  "pre-commit": ["webpack-hook"],
   "dependencies": {
     "@types/jquery": "^3.3.29",
     "debug": "^4.1.1",
@@ -34,6 +36,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "nodemon": "^1.18.10",
+    "pre-commit": "^1.2.2",
     "style-loader": "^0.23.1",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"

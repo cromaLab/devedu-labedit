@@ -26,8 +26,7 @@ function createBase (name) {
   app.use(morgan(log(name), format))
 
   // parse request body
-  DATA_LIMIT = "100mb"
-  app.use(express.json({limit : DATA_LIMIT}))
+  app.use(express.json({ limit: process.env.DATA_LIMIT }))
   app.use(express.urlencoded({ extended: false }))
 
   // retrieve session
