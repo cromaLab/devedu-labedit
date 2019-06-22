@@ -1,9 +1,9 @@
 # Devedu-labedit
 
-# Prerequisites:
+## Prerequisites:
 Install [node](https://nodejs.org/en/).
 
-# Installation Instructions
+## Installation Instructions
 Clone the repository.
 
 Install dependencies by running:
@@ -13,7 +13,7 @@ $ npm install
 
 Add a `.env` file to the root of the repository. Ask Gabe Matute for access.
 
-# Run the server
+## Run the server
 Build webpack:
 
 ```
