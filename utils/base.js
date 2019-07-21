@@ -5,7 +5,7 @@ const session = require('express-session')
 
 const log = require('../utils/log')
 
-const { SECRET, NODE_ENV } = process.env
+const { JSON_LIMIT, NODE_ENV, SECRET } = process.env
 
 /**
  * Create a base app that logs and parses the request.
@@ -26,7 +26,7 @@ function createBase (name) {
   app.use(morgan(log(name), format))
 
   // parse request body
-  app.use(express.json())
+  app.use(express.json({limit: JSON_LIMIT}))
   app.use(express.urlencoded({ extended: false }))
 
   // retrieve session
