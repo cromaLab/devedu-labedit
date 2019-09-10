@@ -18,7 +18,7 @@
     "helmet": "^3.16.0",
     "http-errors": "^1.7.2",
     "jquery": "^3.3.1",
-    "livewriting": "https://github.com/SashaStepanyan/livewriting.git",
+    "livewriting": "rguan72/livewriting#master",
     "monaco-editor": "^0.16.2",
     "morgan": "~1.9.0",
     "morgan-debug": "^2.0.0"
